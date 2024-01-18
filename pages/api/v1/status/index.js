@@ -9,20 +9,19 @@ async function status(request, response) {
     `SELECT * FROM pg_settings WHERE name = 'max_connections';`
   );
 
-  const version = await database.query(
-    ` SELECT split_part(version(), ' ', 2) AS version;`
-  );
+  const databaseVersionResult = await database.query(` SHOW server_version`);
+  const databaseVersionValeu = databaseVersionResult.rows[0].server_version;
 
-  console.log(version.rows[0].version);
+  console.log(Number(activeConnections.rows[0].sum));
 
   const updateAt = new Date().toISOString();
   response.status(200).json({
     update_at: updateAt,
     dependencies: {
       database: {
-        active_connections: Number(activeConnections.rows[0].sum),
+        opend_connections: Number(activeConnections.rows[0].sum),
         max_connections: maxConnections.rows[0].setting,
-        version: version.rows[0].version,
+        version: databaseVersionValeu,
       },
     },
   });
