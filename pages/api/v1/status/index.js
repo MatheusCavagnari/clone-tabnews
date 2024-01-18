@@ -1,9 +1,11 @@
 import database from "infra/database.js";
 
 async function status(request, response) {
-  const databaseOpenedConnectionsResult = await database.query(
-    `SELECT count(*)::int FROM pg_stat_activity WHERE datname = 'local_db';`
-  );
+  const databaseName = process.env.POSTGRES_DB;
+  const databaseOpenedConnectionsResult = await database.query({
+    text: "SELECT count(*)::int FROM pg_stat_activity WHERE datname = $1;",
+    values: [databaseName],
+  });
   const databaseOpenedConnectionsValeu =
     databaseOpenedConnectionsResult.rows[0].count;
   console.log(databaseOpenedConnectionsValeu);
