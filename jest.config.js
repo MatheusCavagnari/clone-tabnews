@@ -6,7 +6,5 @@ const createJestConfig = nextJest();
 const jestConfig = createJestConfig({
   moduleDirectories: ["node_modules", "<rootDir>"],
 });
-console.log(jestConfig);
-console.log("jestConfig");
 
 module.exports = jestConfig;
