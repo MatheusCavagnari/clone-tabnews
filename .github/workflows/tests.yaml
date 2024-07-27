@@ -7,9 +7,9 @@ jobs:
     name: Jest Ubuntu
     runs-on: ubuntu-latest
     steps:
-      - user: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - user: actions/setup-node@4
+      - uses: actions/setup-node@4
         with:
           node-version: "lst/hydrogen"
 
